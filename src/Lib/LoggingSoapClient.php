@@ -15,7 +15,7 @@ class LoggingSoapClient extends SoapClient
     {
         $random_request_id = mt_rand(1000, 9999);
 
-        $this->logger->debug('REQUEST #'.$random_request_id.' ('.$function_name.'): '.print_r($arguments, true));
+      //  $this->logger->debug('REQUEST #'.$random_request_id.' ('.$function_name.'): '.print_r($arguments, true));
 
         try {
             $result = parent::__call($function_name, $arguments);
@@ -24,7 +24,7 @@ class LoggingSoapClient extends SoapClient
             if (is_object($result) && $result->return) {
                 $json_decoded_result = json_decode($result->return, true);
 
-                $this->logger->debug('RESPONSE #'.$random_request_id.': '.print_r($json_decoded_result ?: $result, true));
+            //    $this->logger->debug('RESPONSE #'.$random_request_id.': '.print_r($json_decoded_result ?: $result, true));
             }
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());

@@ -91,7 +91,7 @@ class Request
             }
         }
         else {
-            $this->connection->getLogger()->debug('Cache found ['.$this->method.']');
+          //  $this->connection->getLogger()->debug('Cache found ['.$this->method.']');
             $raw_response = $cached_result;
         }
 

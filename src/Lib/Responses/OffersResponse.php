@@ -37,8 +37,8 @@ class OffersResponse extends Response
                 return $offer;
             });
 
-        $this->request->getConnection()->getLogger()
-            ->debug('All offers ('.$this->offers->count().'): '.print_r($this->offers->map(function (Offer $offer) { return $offer->cost.($offer->getVehicle() ? ', '.$offer->getVehicle()->title.' ['.$offer->getVehicle()->reg_number.'], priority '.$offer->priority : ', NO VEHICLE'); })->toArray(), true));
+      /*  $this->request->getConnection()->getLogger()
+            ->debug('All offers ('.$this->offers->count().'): '.print_r($this->offers->map(function (Offer $offer) { return $offer->cost.($offer->getVehicle() ? ', '.$offer->getVehicle()->title.' ['.$offer->getVehicle()->reg_number.'], priority '.$offer->priority : ', NO VEHICLE'); })->toArray(), true)); */
 
         $this->offers = $this->offers
             ->filter(function (Offer $offer) {
@@ -54,8 +54,8 @@ class OffersResponse extends Response
             })
             ->values();
 
-        $this->request->getConnection()->getLogger()
-            ->debug('Active offers ('.$this->offers->count().'): '.print_r($this->offers->map(function (Offer $offer) { return $offer->cost.($offer->getVehicle() ? ', '.$offer->getVehicle()->title.' ['.$offer->getVehicle()->reg_number.'], priority '.$offer->priority : ', NO VEHICLE'); })->toArray(), true));
+      /*  $this->request->getConnection()->getLogger()
+            ->debug('Active offers ('.$this->offers->count().'): '.print_r($this->offers->map(function (Offer $offer) { return $offer->cost.($offer->getVehicle() ? ', '.$offer->getVehicle()->title.' ['.$offer->getVehicle()->reg_number.'], priority '.$offer->priority : ', NO VEHICLE'); })->toArray(), true)); */
 
         $this->offers = $this->offers
             ->groupBy(function (Offer $offer) {
@@ -73,8 +73,8 @@ class OffersResponse extends Response
             })
             ->values();
 
-        $this->request->getConnection()->getLogger()
-            ->debug('Distinct offers ('.$this->offers->count().'): '.print_r($this->offers->map(function (Offer $offer) { return $offer->cost.($offer->getVehicle() ? ', '.$offer->getVehicle()->title.' ['.$offer->getVehicle()->reg_number.'], priority '.$offer->priority : ', NO VEHICLE'); })->toArray(), true));
+      /*  $this->request->getConnection()->getLogger()
+            ->debug('Distinct offers ('.$this->offers->count().'): '.print_r($this->offers->map(function (Offer $offer) { return $offer->cost.($offer->getVehicle() ? ', '.$offer->getVehicle()->title.' ['.$offer->getVehicle()->reg_number.'], priority '.$offer->priority : ', NO VEHICLE'); })->toArray(), true)); */
     }
 
     public function isPromocodeAccepted()
