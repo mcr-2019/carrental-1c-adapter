@@ -15,4 +15,12 @@ class OrdersRequest extends Request
         ]);
         return $this;
     }
+
+    public function setOrders(array $ids)
+    {
+      $this->setRawRequestData([
+        'ID' => $ids
+      ]);
+      return $this;
+    }
 }

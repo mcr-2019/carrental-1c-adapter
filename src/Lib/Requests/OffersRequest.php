@@ -44,7 +44,7 @@ class OffersRequest extends Request
 
     public function setPromocode($promocode)
     {
-        $this->setRawRequestData(['promocode' => $promocode]);
+        $this->setRawRequestData(['PromoCode' => $promocode]);
         return $this;
     }
 }

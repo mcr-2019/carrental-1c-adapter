@@ -11,6 +11,9 @@ use Dataloft\Carrental\Lib\Responses\Response;
 use Exception;
 use SoapFault;
 
+use App\Mail\ExceptionHandlerEmail;
+use Illuminate\Support\Facades\Mail;
+
 class Request
 {
     /** @var  Connection */
@@ -75,15 +78,25 @@ class Request
 
                 $raw_response = $soapClient->{$this->method}($this->request_data);
             } catch (SoapFault $e) {
-                $this->connection->getLogger()->error('Request failed ('.$wsdl_url.', '.$this->method.'): '.$e->getMessage());
-                switch ($e->faultcode) {
-                    case 'WSDL':
-                        throw new ConnectionException($e->faultcode, 'Failed to connect to WSDL: '.$wsdl_url.' '.($this->connection->getLogin() ? '(user '.$this->connection->getLogin().' '.($this->connection->getPassword() ? 'WITH password' : 'WITHOUT password').')' : '(without authorization)'));
-                    case 'Client':
-                        throw new BadRequestException($e->faultcode, 'Bad request ('.$wsdl_url.', '.$this->method.'), request data:'.PHP_EOL.print_r($this->request_data, true));
-                    default:
-                        throw $e;
-                }
+              
+              $errorMessage = 'Fault code: ' . $e->faultcode . '. Request failed ('.$wsdl_url.', '.$this->method.'): '.$e->getMessage();
+              if (env('APP_ENV', 'dev') == 'production') {
+                $adminEmail = env('MYCARRENTAL_ERROR_HANDLER', 'avz@mycarrental.ru');
+                Mail::to($adminEmail)
+                    ->send(new ExceptionHandlerEmail($errorMessage));
+                $adminEmail2 = '12toydolls46@gmail.com';
+                Mail::to($adminEmail2)
+                    ->send(new ExceptionHandlerEmail($errorMessage));
+              }
+              $this->connection->getLogger()->error($errorMessage);
+              switch ($e->faultcode) {
+                  case 'WSDL':
+                      throw new ConnectionException($e->faultcode, 'Failed to connect to WSDL: '.$wsdl_url.' '.($this->connection->getLogin() ? '(user '.$this->connection->getLogin().' '.($this->connection->getPassword() ? 'WITH password' : 'WITHOUT password').')' : '(without authorization)'));
+                  case 'Client':
+                      throw new BadRequestException($e->faultcode, 'Bad request ('.$wsdl_url.', '.$this->method.'), request data:'.PHP_EOL.print_r($this->request_data, true));
+                  default:
+                      throw $e;
+              }
             }
 
             if (!empty($cache_key) && $this->cache_lifetime > 0) {
@@ -91,7 +104,7 @@ class Request
             }
         }
         else {
-          //  $this->connection->getLogger()->debug('Cache found ['.$this->method.']');
+          //    $this->connection->getLogger()->debug('Cache found ['.$this->method.']');
             $raw_response = $cached_result;
         }
 
@@ -100,8 +113,18 @@ class Request
         try {
             $response = new $response_class($this, $raw_response);
         } catch (InvalidRequestException $e) {
-            $this->connection->getLogger()->error('Invalid request ('.$wsdl_url.', '.$this->method.'): '.$e->getMessage().', request data:'.PHP_EOL.print_r($this->request_data, true));
-            throw $e;
+          
+          $errorMessage = 'Fault code: ' . $e->getCode() . '. ' . 'Invalid request ('.$wsdl_url.', '.$this->method.'): '.$e->getMessage().', request data:'.PHP_EOL.print_r($this->request_data, true);
+          if (env('APP_ENV', 'dev') == 'production') {
+            $adminEmail = env('MYCARRENTAL_ERROR_HANDLER', 'avz@mycarrental.ru');
+            Mail::to($adminEmail)
+                ->send(new ExceptionHandlerEmail($errorMessage));
+            $adminEmail2 = '12toydolls46@gmail.com';
+            Mail::to($adminEmail2)
+                ->send(new ExceptionHandlerEmail($errorMessage));
+          }
+          $this->connection->getLogger()->error($errorMessage);
+          throw $e;
         }
 
         return $response;

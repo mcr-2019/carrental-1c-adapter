@@ -46,8 +46,8 @@ class Offer extends MappingModel
         'cost' => 'Cost',
         'price' => 'Price',
         'price_discount' => 'PriceDiscount',
-        'discount' => 'float',
-        'discount_percent' => 'float',
+        'discount' => 'Discount',
+        'discount_percent' => 'Discount_percent',
         'period' => 'Period',
         'period_days' => 'PeriodDays',
         'period_hours' => 'PeriodTime',
@@ -55,6 +55,12 @@ class Offer extends MappingModel
         'discount2' => 'float',
         'min_hours' => 'MinHour',
         'transfer_class' => 'Klasstransfera',
+        'pick_up_cost' => 'CostPickUP',
+        'pickup_out_of_hours_fee' => 'CostPickUP_OffHours',
+        'drop_off_cost' => 'CostDropOff',
+        'dropoff_out_of_hours_fee' => 'CostDropOff_OffHours',
+        'priority' => 'Priority',
+        'promocode_accepted' => 'Promocode_accepted'
     ];
 
     protected $casts = [

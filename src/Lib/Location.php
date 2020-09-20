@@ -21,11 +21,8 @@ class Location extends MappingModel implements LocationInterface
         'geo_lat' => 'GPS_N',
         'geo_lng' => 'GPS_E',
         'project' => 'Project',
-        'Location' => 'Location',
-        'return_cost' => 'CostReturn',
-        'days_for_delivery' => 'LocationChangeCost',
-        'change_cost' => 'DaysForDelivery',
-        'default' => 'MainCity'
+        'days_for_serve' => 'DaysForServe',
+        'days_for_return' => 'DaysForReturn'
     ];
 
     protected $casts = [

@@ -14,6 +14,8 @@ class Equipment extends MappingModel
         'UUID' => 'ID',
         'name' => 'Name',
         'price' => 'RentPrice',
+        'include_in_prepayment' => 'IncludeInPrepayment',
+        'enable_by_default' => 'EnableByDefault'
     ];
 
     protected $qty;

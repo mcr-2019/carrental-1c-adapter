@@ -88,7 +88,7 @@ class Connection
     {
         switch ($type) {
             case Offer::TYPE_DAILY:
-                return new OffersRequest($this, 'ws_avto.SearchForFree?wsdl', 'SearchForFree', ['Zapros' => 'Avto']);
+                return new OffersRequest($this, 'ws_avto.SearchForFree?wsdl', 'SearchForFree', ['Zapros' => 'Rent']);
             case Offer::TYPE_HOURLY:
                 return new OffersRequest($this, 'ws_avto.SearchForFree?wsdl', 'SearchForFree', ['Zapros' => 'HourlyRental']);
                 break;
@@ -105,7 +105,7 @@ class Connection
     {
         switch ($type) {
             case Offer::TYPE_DAILY:
-                return (new OneOfferRequest($this, 'ws_avto.SearchForFree?wsdl', 'SearchForFree', ['Zapros' => 'Avto']))
+                return (new OneOfferRequest($this, 'ws_avto.SearchForFree?wsdl', 'SearchForFree', ['Zapros' => 'Rent']))
                     ->setVehicle($vehicle);
             case Offer::TYPE_HOURLY:
                 return (new OneOfferRequest($this, 'ws_avto.SearchForFree?wsdl', 'SearchForFree', ['Zapros' => 'HourlyRental']))
@@ -122,7 +122,7 @@ class Connection
 
     public function getEquipmentRequest()
     {
-        return new EquipmentRequest($this, 'ws_avto.Svobodnye?wsdl', 'DannyePoSvobodnym', ['Zapros' => 'Equipment']);
+        return new EquipmentRequest($this, 'ws_avto.SearchForFree?wsdl', 'SearchForFree', ['Zapros' => 'Equipment']);
     }
 
     public function getLockRequest()
@@ -155,6 +155,11 @@ class Connection
     public function getOrdersRequest()
     {
         return new OrdersRequest($this, 'ws_avto.Orders?wsdl', 'Orders');
+    }
+
+    public function getOrdersByIdsRequest()
+    {
+        return new OrdersRequest($this, 'ws_avto.Orders?wsdl', 'OrdersID');
     }
 
     public function getRawRequest($wsdl_path, $method, array $request_data = [])
