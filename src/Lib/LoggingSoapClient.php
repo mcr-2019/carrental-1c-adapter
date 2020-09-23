@@ -31,7 +31,7 @@ class LoggingSoapClient extends SoapClient
             }
         } catch (Exception $e) {
           $errorMessage = 'Fault code: ' . $e->getCode() . '. ' . $e->getMessage();
-          if (env('APP_ENV', 'dev') == 'production') {
+          if (env('APP_ENV', 'dev') == 'production' && strlen($e->getMessage()) < 1200) {
             $adminEmail = env('MYCARRENTAL_ERROR_HANDLER', 'avz@mycarrental.ru');
             Mail::to($adminEmail)
                 ->send(new ExceptionHandlerEmail($errorMessage));

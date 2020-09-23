@@ -80,7 +80,7 @@ class Request
             } catch (SoapFault $e) {
               
               $errorMessage = 'Fault code: ' . $e->faultcode . '. Request failed ('.$wsdl_url.', '.$this->method.'): '.$e->getMessage();
-              if (env('APP_ENV', 'dev') == 'production') {
+              if (env('APP_ENV', 'dev') == 'production' && strlen($e->getMessage()) < 1200) {
                 $adminEmail = env('MYCARRENTAL_ERROR_HANDLER', 'avz@mycarrental.ru');
                 Mail::to($adminEmail)
                     ->send(new ExceptionHandlerEmail($errorMessage));
@@ -115,7 +115,7 @@ class Request
         } catch (InvalidRequestException $e) {
           
           $errorMessage = 'Fault code: ' . $e->getCode() . '. ' . 'Invalid request ('.$wsdl_url.', '.$this->method.'): '.$e->getMessage().', request data:'.PHP_EOL.print_r($this->request_data, true);
-          if (env('APP_ENV', 'dev') == 'production') {
+          if (env('APP_ENV', 'dev') == 'production' && strlen($e->getMessage()) < 1200) {
             $adminEmail = env('MYCARRENTAL_ERROR_HANDLER', 'avz@mycarrental.ru');
             Mail::to($adminEmail)
                 ->send(new ExceptionHandlerEmail($errorMessage));
