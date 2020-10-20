@@ -21,7 +21,7 @@ class Response implements Arrayable
         $this->response_data = json_decode($raw_response->return, true);
 
         if (isset($this->response_data['result']) && $this->response_data['result'] !== 'true') {
-            throw new InvalidRequestException(array_get($this->response_data, 'code', ''));
+            throw new InvalidRequestException(array_get($this->response_data, 'error', ''), array_get($this->response_data, 'faultcode', 0));
         }
     }
 
