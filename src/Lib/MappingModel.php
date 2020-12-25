@@ -39,7 +39,8 @@ class MappingModel implements Arrayable
                     }
                 }
             }
-            $this->attributes[$attribute] = $this->castValue($attribute, trim($value));
+            $value = is_string($value) ? trim($value) : $value;
+            $this->attributes[$attribute] = $this->castValue($attribute, $value);
         }
         return $this;
     }
