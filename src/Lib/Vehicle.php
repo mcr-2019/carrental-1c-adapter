@@ -60,6 +60,7 @@ class Vehicle extends MappingModel implements VehicleInterface
         'trashed' => 'Del',
         'fuel' => 'toplivo',
         'seats' => 'numberofseats',
+        'drive_type_name' => 'DriveUnit',
         'is_transfer_available' => 'Transfer',
         'is_hourly_rent_available' => 'HourlyRental',
         'modified' => 'modifed',
