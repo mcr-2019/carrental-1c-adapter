@@ -1,5 +1,5 @@
 {
-    "name": "mcr-2021/carrental-1c-adapter",
+    "name": "mycarrental/carrental-1c-adapter",
     "version": "1.1.1",
     "license": "proprietary",
     "description": "Car rental services adapter (client)",
