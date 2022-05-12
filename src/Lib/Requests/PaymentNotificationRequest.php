@@ -13,6 +13,7 @@ class PaymentNotificationRequest extends Request
         'ID_reserve' => null,
         'sum' => null,
         'kassa' => '',
+        'SumBonuses' => 0
     ];
 
     public function setReservation(Reservation $reservation)
@@ -30,6 +31,12 @@ class PaymentNotificationRequest extends Request
     public function setPaymentGatewayID($payment_gateway_id)
     {
         $this->setRawRequestData(['kassa' => $payment_gateway_id]);
+        return $this;
+    }
+
+    public function setSberbankSpasiboLoyaltyPaymentAmount($amountPaidBySberbankSpasiboLoyalty)
+    {
+        $this->setRawRequestData(['SumBonuses' => $amountPaidBySberbankSpasiboLoyalty]);
         return $this;
     }
 }
