@@ -13,7 +13,8 @@ class PaymentNotificationRequest extends Request
         'ID_reserve' => null,
         'sum' => null,
         'kassa' => '',
-        'SumBonuses' => 0
+        'SumBonusesWriteOff' => 0,
+        'SumBonusesWriteOn' => 0
     ];
 
     public function setReservation(Reservation $reservation)
@@ -34,9 +35,15 @@ class PaymentNotificationRequest extends Request
         return $this;
     }
 
-    public function setSberbankSpasiboLoyaltyPaymentAmount($amountPaidBySberbankSpasiboLoyalty)
+    public function setSberbankSpasiboLoyaltyPaymentAmount($amount)
     {
-        $this->setRawRequestData(['SumBonuses' => $amountPaidBySberbankSpasiboLoyalty]);
+        $this->setRawRequestData(['SumBonusesWriteOff' => $amount]);
+        return $this;
+    }
+
+    public function setSberbankSpasiboLoyaltyAwardAmount($amount)
+    {
+        $this->setRawRequestData(['SumBonusesWriteOn' => $amount]);
         return $this;
     }
 }
