@@ -14,7 +14,7 @@
     ],
     "require": {
         "laravel/framework": "^5.4",
-        "psr/log": "~1.0.2",
+        "psr/log": "~1.1.0",
         "nesbot/carbon": "~1.22.1",
         "giggsey/libphonenumber-for-php": "~8.8.2"
     },
