@@ -99,12 +99,16 @@ class Request
               }
             }
 
-            if (!empty($cache_key) && $this->cache_lifetime > 0) {
-                $this->connection->getCache()->put($cache_key, $raw_response, $this->cache_lifetime);
+            if (isset($raw_response->return)) {
+              $result = json_decode($raw_response->return, true);
+              if (count($result) > 0 && !(isset($result['result']) && $result['result'] == 'fail')) {
+                if (!empty($cache_key) && $this->cache_lifetime > 0) {
+                  $this->connection->getCache()->put($cache_key, $raw_response, $this->cache_lifetime);
+                }
+              }
             }
         }
         else {
-          //    $this->connection->getLogger()->debug('Cache found ['.$this->method.']');
             $raw_response = $cached_result;
         }
 
