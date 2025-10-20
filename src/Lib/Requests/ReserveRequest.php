@@ -47,6 +47,7 @@ class ReserveRequest extends Request
         'Documents' => '[]',
         'PromoCode' => null,
         'Roundtrip' => null,
+        'RequiresConfirmation' => null
     ];
 
     public function setVehicle(VehicleInterface $vehicle)
@@ -146,6 +147,12 @@ class ReserveRequest extends Request
     public function setPromocode($promocode)
     {
         $this->setRawRequestData(['PromoCode' => $promocode]);
+        return $this;
+    }
+
+    public function setRequiresConfirmation($requiresConfirmation)
+    {
+        $this->setRawRequestData(['RequiresConfirmation' => $requiresConfirmation]);
         return $this;
     }
 }
