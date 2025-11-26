@@ -47,7 +47,8 @@ class ReserveRequest extends Request
         'Documents' => '[]',
         'PromoCode' => null,
         'Roundtrip' => null,
-        'RequiresConfirmation' => 0
+        'RequiresConfirmation' => 0,
+        'Roundtrip' => null
     ];
 
     public function setVehicle(VehicleInterface $vehicle)
