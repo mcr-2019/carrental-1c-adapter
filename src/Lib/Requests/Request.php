@@ -80,13 +80,8 @@ class Request
             } catch (SoapFault $e) {
               
               $errorMessage = 'Fault code: ' . $e->faultcode . '. Request failed ('.$wsdl_url.', '.$this->method.'): '.$e->getMessage();
-              if (env('APP_ENV', 'dev') == 'production' && strlen($e->getMessage()) < 1200) {
-                $adminEmail = env('MYCARRENTAL_ERROR_HANDLER', 'avz@mycarrental.ru');
-                Mail::to($adminEmail)
-                    ->send(new ExceptionHandlerEmail($errorMessage));
-                $adminEmail2 = '12toydolls46@gmail.com';
-                Mail::to($adminEmail2)
-                    ->send(new ExceptionHandlerEmail($errorMessage));
+              if ($this->shouldSendErrorEmail($e)) {
+				$this->sendErrorEmail($errorMessage);
               }
               $this->connection->getLogger()->error($errorMessage);
               switch ($e->faultcode) {
@@ -119,13 +114,8 @@ class Request
         } catch (InvalidRequestException $e) {
           
           $errorMessage = 'Fault code: ' . $e->getCode() . '. ' . 'Invalid request ('.$wsdl_url.', '.$this->method.'): '.$e->getMessage().', request data:'.PHP_EOL.print_r($this->request_data, true);
-          if (env('APP_ENV', 'dev') == 'production' && strlen($e->getMessage()) < 1200) {
-            $adminEmail = env('MYCARRENTAL_ERROR_HANDLER', 'avz@mycarrental.ru');
-            Mail::to($adminEmail)
-                ->send(new ExceptionHandlerEmail($errorMessage));
-            $adminEmail2 = '12toydolls46@gmail.com';
-            Mail::to($adminEmail2)
-                ->send(new ExceptionHandlerEmail($errorMessage));
+          if ($this->shouldSendErrorEmail($e)) {
+			$this->sendErrorEmail($errorMessage);
           }
           $this->connection->getLogger()->error($errorMessage);
           throw $e;
@@ -138,4 +128,24 @@ class Request
     {
         return $this->connection;
     }
+
+	protected function shouldSendErrorEmail($exception)
+	{
+		return env('APP_ENV', 'dev') == 'production'
+			&& (int) date('G') >= 8
+			&& (int) date('G') < 22
+			&& strlen($exception->getMessage()) < 1200;
+	}
+
+	protected function sendErrorEmail($errorMessage)
+	{
+		$adminEmail = env('MYCARRENTAL_ERROR_HANDLER', 'avz@mycarrental.ru');
+		$adminEmail2 = '12toydolls46@gmail.com';
+
+		Mail::to($adminEmail)
+			->send(new ExceptionHandlerEmail($errorMessage));
+
+		Mail::to($adminEmail2)
+			->send(new ExceptionHandlerEmail($errorMessage));
+	}
 }
