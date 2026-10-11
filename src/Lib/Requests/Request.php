@@ -132,8 +132,8 @@ class Request
 	protected function shouldSendErrorEmail($exception)
 	{
 		return env('APP_ENV', 'dev') == 'production'
-			&& (int) date('G') >= 8
-			&& (int) date('G') < 22
+			&& (int) date('G') >= (int) env('ERROR_EMAIL_START_HOUR', 8)
+			&& (int) date('G') < (int) env('ERROR_EMAIL_END_HOUR', 22)
 			&& strlen($exception->getMessage()) < 1200;
 	}
 
